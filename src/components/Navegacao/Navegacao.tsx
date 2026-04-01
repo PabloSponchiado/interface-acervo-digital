@@ -1,7 +1,7 @@
 import { type JSX } from "react";
 import { Menubar } from 'primereact/menubar';
 import type { MenuItem } from 'primereact/menuitem';
-import { Avatar } from 'primereact/avatar';
+import { Link, useLocation } from "react-router-dom";
 
 interface CustomMenuItem extends MenuItem {
     badge?: number;
@@ -10,6 +10,8 @@ interface CustomMenuItem extends MenuItem {
 }
 
 function Navegacao(): JSX.Element {
+    const location = useLocation();
+
     const items: CustomMenuItem[] = [
         {
             label: 'Home',
@@ -48,12 +50,14 @@ function Navegacao(): JSX.Element {
 
     const end = (
         <div className="flex align-items-center gap-2">
-            <p className="text-white content-center pr-[0.5rem]">Amy Elsner</p>
-            <Avatar
-                image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-                shape="circle"
-                className="mr-10 !w-[25%] !h-[25%]"
-            />
+            {location.pathname !== '/login' && (
+                <Link
+                    to="/login"
+                    className="mr-8 rounded-md bg-white px-4 py-2 font-medium text-slate-700 transition-colors hover:bg-slate-100"
+                >
+                    Entrar
+                </Link>
+            )}
         </div>
     );
 
