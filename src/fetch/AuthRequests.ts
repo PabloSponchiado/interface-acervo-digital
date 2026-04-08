@@ -44,8 +44,8 @@ class AuthRequests {
 
             // verifica se o atributo auth da resposta tem o valor TRUE, se tiver é porque a autenticação teve sucesso
             if (data.auth) {
-                // persistem o token, o nome e o id do professor no localstorage
-                this.persistToken(data.token, data.usuario.nome, data.usuario.id_usuario, data.auth);
+                // persistem o token, o email e o id do professor no localstorage
+                this.persistToken(data.token, data.usuario.email, data.usuario.id_usuario, data.auth);
             }
 
             // retorna a resposta da requisição a quem chamou a função
@@ -60,14 +60,14 @@ class AuthRequests {
     /**
      * Persiste o token no localStorage
      * @param {*} token - token recebido do servidor
-     * @param {*} username - nome usuário recebido do servidor
+     * @param {*} email - email do usuário recebido do servidor
      * @param {*} idUsuario - idUsuario recebido do servidor
      */
-    persistToken(token: string, username: string, idUsuario: number, isAuth: boolean) {
+    persistToken(token: string, email: string, idUsuario: number, isAuth: boolean) {
         // adiciona o token no localstorade com o apelido de token
         localStorage.setItem('token', token);  // -> armazena o token no localStorage e coloca o 'apelido' de token
-        // adiciona o nome de usuário no localstorade com o apelido de username
-        localStorage.setItem('username', username);  // -> armazena o username no localStorage e coloca o 'apelido' de username 
+        // adiciona o email no localstorade com o apelido de email
+        localStorage.setItem('email', email);  // -> armazena o email no localStorage e coloca o 'apelido' de email 
         // adiciona o id da pessoa no localstorade com o apelido de idPessoa
         localStorage.setItem('idUsuario', idUsuario.toString());  // -> armazena o idPessoa no localStorage e coloca o 'apelido' de idPessoa
         // adiciona o valor de autenticação no localstorade com o apelido de isAuth
@@ -80,8 +80,8 @@ class AuthRequests {
     removeToken() {
         // remove o token do localstorade
         localStorage.removeItem('token');  // -> remove o 'apelido' de token do localStorage
-        // remove o username do localstorage
-        localStorage.removeItem('username');  // -> remove o 'apelido' de username do localStorage
+        // remove o email do localstorage
+        localStorage.removeItem('email');  // -> remove o 'apelido' de email do localStorage
         // remove o idPessoa do localstorage
         localStorage.removeItem('idUsuario');  // -> remove o 'apelido' de idPessoa do localStorage
         // remove o isAuth do localstorage

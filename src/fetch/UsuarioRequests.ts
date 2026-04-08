@@ -1,1 +1,0 @@
-// Classe responsável por fazer requisições à API - usuários
