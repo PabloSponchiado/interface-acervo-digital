@@ -6,11 +6,13 @@ import Rodape from "../../../components/Rodape/Rodape";
 
 function PListagemAluno(): JSX.Element {
     return (
-        <>
-        <Navegacao/>
-        <ListagemAlunos/>
-        <Rodape/>
-        </>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <Navegacao/>
+            <div style={{ flex: 1 }}>
+                <ListagemAlunos/>
+            </div>
+            <Rodape/>
+        </div>
     );
 }
 export default PListagemAluno;

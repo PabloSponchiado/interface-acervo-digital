@@ -1,24 +1,26 @@
 import { type JSX, useState, useEffect } from "react";
 import { Menubar } from 'primereact/menubar';
 import type { MenuItem } from 'primereact/menuitem';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthRequests from "../../fetch/AuthRequests.js";
 
 interface CustomMenuItem extends MenuItem {
     badge?: number;
     shortcut?: string;
     items?: CustomMenuItem[];
+    routerLink?: string;
 }
 
 function Navegacao(): JSX.Element {
     const location = useLocation();
+    const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         // Verifica se o usuário está autenticado
         const isAuth = localStorage.getItem('isAuth') === 'true';
         setIsAuthenticated(isAuth);
-    }, [location]); // Atualiza quando a rota muda
+    }, []); // Apenas executa uma vez na montagem do componente
 
     const handleLogout = () => {
         AuthRequests.removeToken();
@@ -29,25 +31,25 @@ function Navegacao(): JSX.Element {
             label: 'Home',
             icon: 'pi pi-home',
             className: 'm-5 text-white text-lg',
-            url: "/"
+            command: () => navigate("/")
         },
         {
             label: 'Alunos',
             icon: 'pi pi-star',
             className: 'm-5 text-white text-lg',
-            url: "lista/alunos"
+            command: () => navigate("/alunos")
         },
         {
             label: 'Livros',
             icon: 'pi pi-star',
             className: 'm-5 text-white text-lg',
-            url: "#"
+            command: () => navigate("/livros")
         },
         {
             label: 'Empréstimos',
             icon: 'pi pi-star',
             className: 'm-5 text-white text-lg',
-            url: "#"   
+            command: () => navigate("/emprestimos")
         }
     ];
 
