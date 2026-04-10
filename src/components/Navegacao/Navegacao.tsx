@@ -35,7 +35,7 @@ function Navegacao(): JSX.Element {
             label: 'Alunos',
             icon: 'pi pi-star',
             className: 'm-5 text-white text-lg',
-            url: "#"
+            url: "lista/alunos"
         },
         {
             label: 'Livros',
