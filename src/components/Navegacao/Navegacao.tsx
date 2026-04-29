@@ -1,55 +1,39 @@
-import { type JSX, useState, useEffect } from "react";
+import { type JSX } from "react";
 import { Menubar } from 'primereact/menubar';
 import type { MenuItem } from 'primereact/menuitem';
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import AuthRequests from "../../fetch/AuthRequests.js";
+import { Avatar } from 'primereact/avatar';
 
 interface CustomMenuItem extends MenuItem {
     badge?: number;
     shortcut?: string;
     items?: CustomMenuItem[];
-    routerLink?: string;
 }
 
 function Navegacao(): JSX.Element {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    useEffect(() => {
-        // Verifica se o usuário está autenticado
-        const isAuth = localStorage.getItem('isAuth') === 'true';
-        setIsAuthenticated(isAuth);
-    }, []); // Apenas executa uma vez na montagem do componente
-
-    const handleLogout = () => {
-        AuthRequests.removeToken();
-    };
-
     const items: CustomMenuItem[] = [
         {
             label: 'Home',
             icon: 'pi pi-home',
             className: 'm-5 text-white text-lg',
-            command: () => navigate("/")
+            url: "/"
         },
         {
             label: 'Alunos',
             icon: 'pi pi-star',
             className: 'm-5 text-white text-lg',
-            command: () => navigate("/alunos")
+            url: "#"
         },
         {
             label: 'Livros',
             icon: 'pi pi-star',
             className: 'm-5 text-white text-lg',
-            command: () => navigate("/livros")
+            url: "#"
         },
         {
             label: 'Empréstimos',
             icon: 'pi pi-star',
             className: 'm-5 text-white text-lg',
-            command: () => navigate("/emprestimos")
+            url: "#"   
         }
     ];
 
@@ -64,22 +48,12 @@ function Navegacao(): JSX.Element {
 
     const end = (
         <div className="flex align-items-center gap-2">
-            {!isAuthenticated && location.pathname !== '/login' && (
-                <Link
-                    to="/login"
-                    className="mr-8 rounded-md bg-white px-4 py-2 font-medium text-slate-700 transition-colors hover:bg-slate-100"
-                >
-                    Entrar
-                </Link>
-            )}
-            {isAuthenticated && (
-                <button
-                    onClick={handleLogout}
-                    className="mr-8 rounded-md bg-red-500 px-4 py-2 font-medium text-white transition-colors hover:bg-red-600"
-                >
-                    Sair
-                </button>
-            )}
+            <p className="text-white content-center pr-[0.5rem]">Amy Elsner</p>
+            <Avatar
+                image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+                shape="circle"
+                className="mr-10 !w-[25%] !h-[25%]"
+            />
         </div>
     );
 
