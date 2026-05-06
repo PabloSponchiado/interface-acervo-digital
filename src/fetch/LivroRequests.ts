@@ -30,6 +30,32 @@ class LivroRequests {
             return;
         }
     }
+
+    async obterLivroPorId(id_livro: number) {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error("Token de autenticação não encontrado. Faça login novamente.");
+            }
+
+            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointLivro}/${id_livro}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                }
+            });
+
+            if (respostaAPI.ok) {
+                const livro = await respostaAPI.json();
+                return livro;
+            } else {
+                throw new Error("Não foi possível buscar o livro.");
+            }
+        } catch (error) {
+            console.error(`Erro ao fazer a consulta de livro por ID. ${error}`);
+            return;
+        }
+    }
 }
 
 export default new LivroRequests;

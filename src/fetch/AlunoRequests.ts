@@ -33,7 +33,7 @@ class AlunoRequests {
         }
     }
     
-   async obterAlunoPorId(id_aluno: number): Promise<AlunoDTO | undefined> {
+  async obterAlunoPorId(id_aluno: number): Promise<AlunoDTO | undefined> {
         try {
             const token = localStorage.getItem('token');
             const respostaAPI = await fetch(`${this.serverURL}${this.endpointAluno}/${id_aluno}`, {

@@ -30,6 +30,32 @@ class EmprestimoRequests {
             return;
         }
     }
+
+    async obterEmprestimoPorId(id_emprestimo: number) {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error("Token de autenticação não encontrado. Faça login novamente.");
+            }
+
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointEmprestimo}/${id_emprestimo}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                }
+            });
+
+            if (respostaAPI.ok) {
+                const emprestimo = await respostaAPI.json();
+                return emprestimo;
+            } else {
+                throw new Error("Não foi possível buscar o empréstimo.");
+            }
+        } catch (error) {
+            console.error(`Erro ao fazer a consulta de empréstimo por ID. ${error}`);
+            return;
+        }
+    }
 }
 
 export default new EmprestimoRequests;
