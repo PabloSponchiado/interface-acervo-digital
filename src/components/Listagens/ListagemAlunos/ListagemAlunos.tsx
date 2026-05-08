@@ -33,7 +33,7 @@ function ListagemAlunos(): JSX.Element {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
-        <main className="bg-gray-200 flex-1 flex flex-col px-4 sm:px-6 md:px-10 py-6 md:py-10 overflow-hidden"> {/* overflow-hidden no main para conter o scroll interno */}
+        <main className="bg-gray-200 flex-1 flex flex-col px-4 sm:px-6 md:px-10 py-6 md:py-10 overflow-hidden">
             <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 flex-shrink-0">
                 <h1 className="flex-1 text-xl sm:text-2xl md:text-3xl text-center sm:text-left font-bold text-slate-800">Alunos</h1>
                 <a href="#" className="w-full sm:w-auto px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-slate-700 rounded-md text-center text-white font-bold flex items-center justify-center hover:cursor-pointer hover:bg-slate-600 transition-all shadow-md hover:shadow-lg active:scale-95">
@@ -44,50 +44,85 @@ function ListagemAlunos(): JSX.Element {
             <input type="text" name="busca-aluno" id="busca-aluno" placeholder="Buscar aluno" className="w-full max-w-6xl mx-auto p-3 md:p-2 md:mb-4 border-b-2 border-slate-700 rounded-sm" />
 
             <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col min-h-0 bg-white rounded-xl shadow-xl border border-slate-300 overflow-hidden">
-                <div className="flex-1 overflow-auto overscroll-none">
-                    <table className="table-auto w-full border-collapse text-xs sm:text-sm md:text-base">
-                        <thead className="bg-slate-700 sticky top-0 z-10 shadow-sm">
-                            <tr>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden md:table-cell text-left">ID</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">RA</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Nome</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden sm:table-cell text-left">E-mail</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden lg:table-cell text-left">Telefone</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-200">
-                            {currentAlunos && currentAlunos.length > 0 ? (
-                                currentAlunos.map((aluno) => (
-                                    <tr className="text-center md:text-left transition-colors hover:bg-slate-50 group" key={aluno.id_aluno}>
-                                        <td className="p-3 md:p-4 hidden md:table-cell text-slate-500">{aluno.id_aluno}</td>
-                                        <td className="p-3 md:p-4 font-medium text-slate-700">{aluno.ra}</td>
-                                        <td className="p-3 md:p-4 text-slate-700 font-semibold">{aluno.nome} {aluno.sobrenome}</td>
-                                        <td className="p-3 md:p-4 hidden sm:table-cell text-slate-600">{aluno.email}</td>
-                                        <td className="p-3 md:p-4 hidden lg:table-cell text-slate-600">{aluno.celular}</td>
-                                        <td className="p-2 md:p-4">
-                                            <div className="flex flex-col sm:flex-row items-center justify-center gap-1 md:gap-2">
-                                                <button
-                                                    className="w-full sm:w-auto bg-sky-100 text-sky-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-sky-600 hover:text-white transition-all hover:cursor-pointer"
-                                                    onClick={() => navigate(`/detalhes/aluno/${aluno.id_aluno}`)}
-                                                >
-                                                    Detalhes
-                                                </button>
-                                                <button className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">Atualizar</button>
-                                                <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all">Deletar</button>
-                                            </div>
+                <div className="flex-1 overflow-auto overscroll-none p-4">
+                    {/* Mobile: Cards */}
+                    <div className="block md:hidden space-y-4">
+                        {currentAlunos && currentAlunos.length > 0 ? (
+                            currentAlunos.map((aluno) => (
+                                <div key={aluno.id_aluno} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                                    <h3 className="font-semibold text-lg text-slate-800">{aluno.nome} {aluno.sobrenome}</h3>
+                                    <p className="text-sm text-slate-600">RA: {aluno.ra}</p>
+                                    <p className="text-sm text-slate-600">E-mail: {aluno.email}</p>
+                                    <p className="text-sm text-slate-600">Telefone: {aluno.celular}</p>
+                                    <div className="mt-4 flex flex-col gap-2">
+                                        <button
+                                            className="w-full bg-sky-100 text-sky-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-sky-600 hover:text-white transition-all"
+                                            onClick={() => navigate(`/detalhes/aluno/${aluno.id_aluno}`)}
+                                        >
+                                            Detalhes
+                                        </button>
+                                        <button className="w-full bg-emerald-100 text-emerald-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">
+                                            Atualizar
+                                        </button>
+                                        <button className="w-full bg-red-100 text-red-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-red-600 hover:text-white transition-all">
+                                            Deletar
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center p-10 text-slate-500 italic">
+                                Nenhum aluno encontrado
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Desktop: Table */}
+                    <div className="hidden md:block">
+                        <table className="table-auto w-full border-collapse text-xs sm:text-sm md:text-base">
+                            <thead className="bg-slate-700 sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden md:table-cell text-left">ID</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">RA</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Nome</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden sm:table-cell text-left">E-mail</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden lg:table-cell text-left">Telefone</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200">
+                                {currentAlunos && currentAlunos.length > 0 ? (
+                                    currentAlunos.map((aluno) => (
+                                        <tr className="text-center md:text-left transition-colors hover:bg-slate-50 group" key={aluno.id_aluno}>
+                                            <td className="p-3 md:p-4 hidden md:table-cell text-slate-500">{aluno.id_aluno}</td>
+                                            <td className="p-3 md:p-4 font-medium text-slate-700">{aluno.ra}</td>
+                                            <td className="p-3 md:p-4 text-slate-700 font-semibold">{aluno.nome} {aluno.sobrenome}</td>
+                                            <td className="p-3 md:p-4 hidden sm:table-cell text-slate-600">{aluno.email}</td>
+                                            <td className="p-3 md:p-4 hidden lg:table-cell text-slate-600">{aluno.celular}</td>
+                                            <td className="p-2 md:p-4">
+                                                <div className="flex flex-col sm:flex-row items-center justify-center gap-1 md:gap-2">
+                                                    <button
+                                                        className="w-full sm:w-auto bg-sky-100 text-sky-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-sky-600 hover:text-white transition-all hover:cursor-pointer"
+                                                        onClick={() => navigate(`/detalhes/aluno/${aluno.id_aluno}`)}
+                                                    >
+                                                        Detalhes
+                                                    </button>
+                                                    <button className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">Atualizar</button>
+                                                    <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all">Deletar</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={6} className="text-center p-10 text-slate-500 italic">
+                                            Nenhum aluno encontrado
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={6} className="text-center p-10 text-slate-500 italic">
-                                        Nenhum aluno encontrado
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 {/* Paginação */}

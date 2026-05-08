@@ -43,45 +43,80 @@ function ListagemLivros(): JSX.Element {
             <input type="text" name="buscar-livro" id="buscar-livro" placeholder="Buscar livro" className="w-full max-w-6xl mx-auto p-3 md:p-2 md:mb-4 border-b-2 border-slate-700 rounded-sm" />
 
             <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col min-h-0 bg-white rounded-xl shadow-xl border border-slate-300 overflow-hidden">
-                <div className="flex-1 overflow-auto overscroll-none">
-                    <table className="table-auto w-full border-collapse text-xs sm:text-sm md:text-base">
-                        <thead className="bg-slate-700 sticky top-0 z-10 shadow-sm">
-                            <tr>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden md:table-cell text-left">ID</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Título</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Autor</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden sm:table-cell text-left">ISBN</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden lg:table-cell text-center">Quantidade</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-200">
-                            {currentLivros && currentLivros.length > 0 ? (
-                                currentLivros.map((livro) => (
-                                    <tr className="text-center md:text-left transition-colors hover:bg-slate-50 group" key={livro.id_livro}>
-                                        <td className="p-3 md:p-4 hidden md:table-cell text-slate-500">{livro.id_livro}</td>
-                                        <td className="p-3 md:p-4 font-medium text-slate-700">{livro.titulo}</td>
-                                        <td className="p-3 md:p-4 text-slate-700">{livro.autor}</td>
-                                        <td className="p-3 md:p-4 hidden sm:table-cell text-slate-600">{livro.isbn}</td>
-                                        <td className="p-3 md:p-4 hidden lg:table-cell text-center text-slate-600">{livro.quant_disponivel}</td>
-                                        <td className="p-2 md:p-4">
-                                            <div className="flex flex-col sm:flex-row items-center justify-center gap-1 md:gap-2">
-                                                <button onClick={() => navigate(`/detalhes/livro/${livro.id_livro}`)} className="w-full sm:w-auto bg-sky-100 text-sky-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-sky-600 hover:text-white transition-all">Detalhes</button>
-                                                <button className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">Atualizar</button>
-                                                <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all">Deletar</button>
-                                            </div>
+                <div className="flex-1 overflow-auto overscroll-none p-4">
+                    {/* Mobile: Cards */}
+                    <div className="block md:hidden space-y-4">
+                        {currentLivros && currentLivros.length > 0 ? (
+                            currentLivros.map((livro) => (
+                                <div key={livro.id_livro} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                                    <h3 className="font-semibold text-lg text-slate-800">{livro.titulo}</h3>
+                                    <p className="text-sm text-slate-600">Autor: {livro.autor}</p>
+                                    <p className="text-sm text-slate-600">ISBN: {livro.isbn}</p>
+                                    <p className="text-sm text-slate-600">Quantidade Disponível: {livro.quant_disponivel}</p>
+                                    <div className="mt-4 flex flex-col gap-2">
+                                        <button
+                                            className="w-full bg-sky-100 text-sky-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-sky-600 hover:text-white transition-all"
+                                            onClick={() => navigate(`/detalhes/livro/${livro.id_livro}`)}
+                                        >
+                                            Detalhes
+                                        </button>
+                                        <button className="w-full bg-emerald-100 text-emerald-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">
+                                            Atualizar
+                                        </button>
+                                        <button className="w-full bg-red-100 text-red-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-red-600 hover:text-white transition-all">
+                                            Deletar
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center p-10 text-slate-500 italic">
+                                Nenhum livro encontrado
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Desktop: Table */}
+                    <div className="hidden md:block">
+                        <table className="table-auto w-full border-collapse text-xs sm:text-sm md:text-base">
+                            <thead className="bg-slate-700 sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden md:table-cell text-left">ID</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Título</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Autor</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden sm:table-cell text-left">ISBN</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden lg:table-cell text-center">Quantidade</th>
+                                    <th className="border-b border-slate-600 text-white p-3 md:p-4 text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200">
+                                {currentLivros && currentLivros.length > 0 ? (
+                                    currentLivros.map((livro) => (
+                                        <tr className="text-center md:text-left transition-colors hover:bg-slate-50 group" key={livro.id_livro}>
+                                            <td className="p-3 md:p-4 hidden md:table-cell text-slate-500">{livro.id_livro}</td>
+                                            <td className="p-3 md:p-4 font-medium text-slate-700">{livro.titulo}</td>
+                                            <td className="p-3 md:p-4 text-slate-700">{livro.autor}</td>
+                                            <td className="p-3 md:p-4 hidden sm:table-cell text-slate-600">{livro.isbn}</td>
+                                            <td className="p-3 md:p-4 hidden lg:table-cell text-center text-slate-600">{livro.quant_disponivel}</td>
+                                            <td className="p-2 md:p-4">
+                                                <div className="flex flex-col sm:flex-row items-center justify-center gap-1 md:gap-2">
+                                                    <button onClick={() => navigate(`/detalhes/livro/${livro.id_livro}`)} className="w-full sm:w-auto bg-sky-100 text-sky-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-sky-600 hover:text-white transition-all">Detalhes</button>
+                                                    <button className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">Atualizar</button>
+                                                    <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all">Deletar</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={6} className="text-center p-10 text-slate-500 italic">
+                                            Nenhum livro encontrado
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={6} className="text-center p-10 text-slate-500 italic">
-                                        Nenhum livro encontrado
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 {/* Paginação */}
