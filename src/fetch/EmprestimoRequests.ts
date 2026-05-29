@@ -1,4 +1,5 @@
-// Classe responsável por fazer requisições à API - emprestimo
+import type EmprestimoDTO from "../dto/EmprestimoDTO";
+
 class EmprestimoRequests {
     private serverURL;
     private endpointEmprestimo;
@@ -31,6 +32,28 @@ class EmprestimoRequests {
         }
     }
 
+    async enviarFormularioEmprestimo(formEmprestimo: EmprestimoDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointEmprestimo}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formEmprestimo)
+            });
+
+            if(!respostaAPI.ok) throw new Error(`Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            console.info(`${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao fazer consulta à API. ${error}`);
+            return false;
+        }
+    }
     async obterEmprestimoPorId(id_emprestimo: number) {
         try {
             const token = localStorage.getItem('token');

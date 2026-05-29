@@ -7,7 +7,7 @@ function Rodape(): JSX.Element {
                 Copyright - Todos os direitos e esquerdos reservados
             </p>
             <p className="text-white text-xs sm:text-sm md:text-base text-center">
-                [ Coloque o seu nome aqui ]
+                [ Pablo Sponchiado - 2026 ]
             </p>
         </footer>
     );

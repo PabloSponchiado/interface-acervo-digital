@@ -10,6 +10,30 @@ class AlunoRequests {
         this.endpointAluno = `/api/alunos`;
     }
 
+
+    async enviarFormularioAluno(formAluno: AlunoDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointAluno}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formAluno)
+            });
+
+            if(!respostaAPI.ok) throw new Error(`Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            console.info(`${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao fazer consulta à API. ${error}`);
+            return false;
+        }
+    }
+    
     async obterListaDeAlunos() {
         try {
             const token = localStorage.getItem('token');

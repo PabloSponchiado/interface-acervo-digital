@@ -1,10 +1,13 @@
+import type LivroDTO from "../dto/LivroDTO";
+
+
 // Classe responsável por fazer requisições à API - livro
 class LivroRequests {
-    private serverUrl;
+    private serverURL;
     private endpointLivro;
 
     constructor() {
-        this.serverUrl = 'http://localhost:3333';
+        this.serverURL = 'http://localhost:3333';
         this.endpointLivro = '/api/livros';
     }
 
@@ -12,7 +15,7 @@ class LivroRequests {
         try {
             const token = localStorage.getItem('token');
 
-            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointLivro}`, {
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointLivro}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'x-access-token': `${token}`
@@ -30,6 +33,28 @@ class LivroRequests {
             return;
         }
     }
+    async enviarFormularioLivro(formLivro: LivroDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointLivro}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formLivro)
+            });
+
+            if(!respostaAPI.ok) throw new Error(`Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            console.info(`${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao fazer consulta à API. ${error}`);
+            return false;
+        }
+    }
 
     async obterLivroPorId(id_livro: number) {
         try {
@@ -38,7 +63,7 @@ class LivroRequests {
                 throw new Error("Token de autenticação não encontrado. Faça login novamente.");
             }
 
-            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointLivro}/${id_livro}`, {
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointLivro}/${id_livro}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'x-access-token': `${token}`
